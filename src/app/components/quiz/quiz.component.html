@@ -1,0 +1,72 @@
+<div class="p-4 space-y-4">
+    <h2 class="text-xl font-bold">Create New Quiz (Signals Example)</h2>
+
+    <div>
+      <label class="block font-semibold">Title</label>
+      <input
+        type="text"
+        class="border p-2 w-full"
+        [value]="quiz().title"
+        (input)="onTitleChange($event)"
+      />
+    </div>
+
+    <div>
+      <label class="block font-semibold">Description</label>
+      <textarea
+        class="border p-2 w-full"
+        rows="2"
+        [value]="quiz().description"
+        (input)="onDescriptionChange($event)"
+      ></textarea>
+    </div>
+
+    <div class="space-y-4">
+      <div
+        *ngFor="let question of quiz().questions; let qIndex = index"
+        class="border p-4 rounded"
+      >
+        <label class="block font-semibold">
+          Question {{ qIndex + 1 }}
+        </label>
+        <input
+          type="text"
+          class="border p-2 w-full mb-2"
+          [value]="question.questionText"
+          (input)="onQuestionTextChange($event, qIndex)"
+        />
+
+        <div class="grid grid-cols-2 gap-2">
+          <div
+            *ngFor="let answer of question.answers; let aIndex = index"
+            class="border p-2 rounded flex flex-col gap-1"
+          >
+            <label class="text-sm font-medium">
+              Answer {{ aIndex + 1 }}
+            </label>
+            <input
+              type="text"
+              class="border p-1 w-full"
+              [value]="answer.answerText"
+              (input)="onAnswerTextChange($event, qIndex, aIndex)"
+            />
+            <label class="flex items-center space-x-2 mt-1">
+              <input
+                type="checkbox"
+                [checked]="answer.isCorrect"
+                (change)="onAnswerCorrectChange($event, qIndex, aIndex)"
+              />
+              <span class="text-sm">Correct?</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button
+      class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+      (click)="createQuiz()"
+    >
+      Create Quiz
+    </button>
+  </div>
